@@ -64,7 +64,6 @@ $(function() {
           var randomNumber = this.randomNumberStrGen();
           
           var cloneEles = [];
-          
           $('.smallBlock').each(function(i , ele){
               var offsetVal = $(ele).offset();
               var xPoz = '-' +  ( $(ele).width() * column ) ;
@@ -72,7 +71,8 @@ $(function() {
               
               $(ele).data('indexA' , i+1);
            
-              $(ele).css({'background-position-x' : xPoz+'px' , 'background-position-y' : yPoz+'px'});
+              $(ele).css({'background-position' : xPoz+'px ' + yPoz + 'px'});
+
               column++;
               if(cellPerRowCol == column){
                 row++;
@@ -82,7 +82,6 @@ $(function() {
               var tmpClone = ele.cloneNode(true)
               cloneEles.push(tmpClone);
               
-              //console.log(cloneEles)
               ele.remove();
           });
          
@@ -93,9 +92,9 @@ $(function() {
           
           $('.smallBlock').click(function(){
             var currEle = $(this);
-            var asd = false;
+            var matchedFlag = false;
             $('.smallBlock').removeClass('selectedTile').each(function(ind,ele){
-              console.log(ele , $(ele).data('isSelected'));
+              
               if(ele.style.cssText != currEle[0].style.cssText && $(ele).data('isSelected') == '1'){
                 var eleCss = ele.style.cssText;
                 var thisCss = currEle[0].style.cssText;
@@ -105,13 +104,12 @@ $(function() {
                 
                 $(ele).removeData('isSelected');
                 
-                asd = true;
+                matchedFlag = true;
               }
               
             });
-            if(asd) return;
-            
-            console.log("asee")
+            if(matchedFlag) return;
+
             currEle.addClass('selectedTile');
             currEle.data('isSelected' , '1');
           })
