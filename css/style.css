@@ -1,0 +1,30 @@
+#gridImage , #actualImage{
+  border: 2px solid;
+  margin: 5px;
+  display:inline-block;
+  
+}
+
+#gridImage{
+ padding: 1px; 
+}
+
+.block{
+  background-image: url(http://c.s-microsoft.com/en-us/CMSImages/account-OverviewPage_Avatar_325x300.png?version=d0e99bc2-9007-53e9-1cc8-939215874266);
+      background-size: 200px;
+    background-repeat: no-repeat;
+}
+
+.smallBlock:hover {
+   outline : 1px dashed;
+}
+
+.smallBlock {
+    display: block;
+    margin: 0.5px;
+    float: left;
+}
+
+.selectedTile{
+  outline : 1px solid blue;
+}
