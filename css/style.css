@@ -11,7 +11,7 @@
 
 .block{
   background-image: url(http://c.s-microsoft.com/en-us/CMSImages/account-OverviewPage_Avatar_325x300.png?version=d0e99bc2-9007-53e9-1cc8-939215874266);
-      background-size: 200px;
+     
     background-repeat: no-repeat;
 }
 
@@ -27,4 +27,13 @@
 
 .selectedTile{
   outline : 1px solid blue;
+  box-shadow: 0px 0px 10px 2px blue;
+  position: relative;
 }
+
+* {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+}
+
