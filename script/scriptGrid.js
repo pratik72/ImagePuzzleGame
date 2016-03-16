@@ -35,12 +35,17 @@ $(function() {
         
       },
       
-      randomNumberStrGen: function() {
+      randomNumberStrGen: function(actualArray) {
         var gridBlock  = this.options.gridType;
         var actStr = [];
         for(var i = 0 ; i < gridBlock ; i++){
           actStr.push(i+1);
         }
+
+        if(actualArray){
+          return actStr;
+        }
+
         this.options.actStr = actStr;
         var ranNums = [],
         i = actStr.length,
@@ -55,16 +60,16 @@ $(function() {
       },
 
       setBlockPosition : function(){
-          var gridBlock  = this.options.gridType;
-          var containerWidth = this.options.container;
-          var cellPerRowCol = Math.sqrt( gridBlock );
+          var gridBlock  = this.options.gridType,
+          containerWidth = this.options.container,
+          cellPerRowCol = Math.sqrt( gridBlock ),
+          smallBlocks = $('.smallBlock '),
+          row = 0,
+          column = 0, self = this,
+          cloneEles = [] ,
+          randomNumber = this.randomNumberStrGen();
           
-          var row = 0;
-          var column = 0;
-          var randomNumber = this.randomNumberStrGen();
-          
-          var cloneEles = [];
-          $('.smallBlock').each(function(i , ele){
+          smallBlocks.each(function(i , ele){
               var offsetVal = $(ele).offset();
               var xPoz = '-' +  ( $(ele).width() * column ) ;
               var yPoz = '-' +  ( $(ele).width() * row ) ;
@@ -79,7 +84,7 @@ $(function() {
                 column = 0;
               }
               
-              var tmpClone = ele.cloneNode(true)
+              var tmpClone = $(ele).clone(true);
               cloneEles.push(tmpClone);
               
               ele.remove();
@@ -89,15 +94,23 @@ $(function() {
             
             $('#gridImage').append( cloneEles[ randomNumber[i]-1 ] );
           }
-          
-          $('.smallBlock').click(function(){
+
+          smallBlocks = $('.smallBlock ');
+
+          smallBlocks.click(function(){
             var currEle = $(this);
             var matchedFlag = false;
-            $('.smallBlock').removeClass('selectedTile').each(function(ind,ele){
+            smallBlocks.removeClass('selectedTile').each(function(ind,ele){
               
               if(ele.style.cssText != currEle[0].style.cssText && $(ele).data('isSelected') == '1'){
                 var eleCss = ele.style.cssText;
                 var thisCss = currEle[0].style.cssText;
+
+                var eleData = $(ele).data('indexA');
+                var thisData = currEle.data('indexA');
+
+                currEle.data('indexA' , eleData);
+                $(ele).data('indexA' , thisData)
                 
                 currEle[0].style.cssText = eleCss;
                 ele.style.cssText = thisCss;
@@ -105,6 +118,7 @@ $(function() {
                 $(ele).removeData('isSelected');
                 
                 matchedFlag = true;
+                self._countAndClearImg();
               }
               
             });
@@ -113,7 +127,21 @@ $(function() {
             currEle.addClass('selectedTile');
             currEle.data('isSelected' , '1');
           })
-          
+      },
+
+      _countAndClearImg: function() {
+        var actualArray = this.randomNumberStrGen(true),
+        currArray = [],
+        smallBlocks = $('.smallBlock ');
+
+        smallBlocks.each(function(ind , ele){
+          currArray.push($(ele).data('indexA'));
+        });
+
+        if( JSON.stringify( actualArray ) == JSON.stringify( currArray ) ){
+          smallBlocks.css({'margin': '0px' , 'pointer-events' : 'none'});
+          alert("Hurrey , I done it.");
+        }
       },
 
       _destroy: function() {
@@ -131,6 +159,5 @@ $(function() {
     });
  
     $('#gridImage').GridCreater();
-    //$('#blockGen').BlockCreater();
-
+    
   });
