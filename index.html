@@ -2,13 +2,15 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<meta content="width=device-width, initial-scale=1" name="viewport">
+		
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
 	<meta name="robots" content="noindex, nofollow">
 	<meta name="googlebot" content="noindex, nofollow">
 	
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script type="text/javascript" src="script/jquery.min.js"></script>
+	<script type="text/javascript" src="script/jquery-ui.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="css/style.css">
 	<script type="text/javascript" src="script/scriptGrid.js"></script>
@@ -29,9 +31,18 @@
 	   <div> 
 	   	<h4> 
 	   		<span>moves : <span id='moves'></span> </span>  
-	   		<button type="button" class="btn btn-success" data-dismiss="modal">Restart</button>
+	   		<button type="button" class="btn btn-success restart" data-dismiss="modal">Restart</button>
+	   		<button type="button" class="btn btn-success hintBtn" data-dismiss="modal">Hint</button>
 	   	</h4>
 	   </div>
+
+	   <div class="navbar" data-grid="d">
+		    <ul>
+		        <li><a href="#" class="restart">Restart</a></li>
+		        <li><a href="#" class="hintBtn">Hint</a></li>
+		        <li><a href="#" class="showImg">show Image</a></li>
+		    </ul>
+		</div><!-- /navbar -->
 	   
 	   <div> <h3>How to Play</h3> </div>
 	   <div> <h4>First please select one block by clicking on it , then selct another block where you want to move.</h4> </div>

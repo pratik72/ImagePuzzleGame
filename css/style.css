@@ -1,16 +1,24 @@
+html , body{
+  max-height: calc(100% - 20%);
+  position: relative;
+}
+
 #gridImage , #actualImage{
   border: 2px solid;
-  margin: 5px;
   display:inline-block;
-  
+}
+
+#actualImage{
+  display: none;
 }
 
 #gridImage{
  padding: 1px; 
+ max-width: 750px;
 }
 
 .block{
-  background-image: url(http://c.s-microsoft.com/en-us/CMSImages/account-OverviewPage_Avatar_325x300.png?version=d0e99bc2-9007-53e9-1cc8-939215874266);
+  background-image: url(../images/demo.png);
      
     background-repeat: no-repeat;
 }
@@ -31,9 +39,126 @@
   position: relative;
 }
 
+h4{
+  font-size: 35px;
+}
+
+.navbar{
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  margin-bottom: 0px;
+  background: grey;
+}
+
+.navbar ul{
+  list-style: none;
+  padding: 0px;
+}
+
+.navbar a{
+  color: white;
+}
+
+.navbar li:hover{
+  background-color: cyan;
+  color: black;
+}
+
+.navbar li{
+  width : calc(100%/3 - 3px);
+  float: left;
+  border : 1px solid grey;
+  text-align : center;
+  margin : 0px;
+  height: 50px;
+  line-height: 3;
+}
+
 * {
     -webkit-box-sizing: inherit;
     -moz-box-sizing: inherit;
     box-sizing: inherit;
 }
 
+
+
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+  h4 {
+    font-size: 20px;
+  }
+}
+ 
+/* Smartphones (landscape) ----------- */
+@media only screen
+and (min-width : 321px) {
+/* STYLES GO HERE */
+}
+ 
+/* Smartphones (portrait) ----------- */
+@media only screen
+and (max-width : 320px) {
+/* STYLES GO HERE */
+}
+ 
+/* iPads (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px) {
+/* STYLES GO HERE */
+}
+ 
+/* iPads (landscape) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : landscape) {
+/* STYLES GO HERE */
+}
+ 
+/* iPads (portrait) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : portrait) {
+/* STYLES GO HERE */
+}
+ 
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width : 1224px) {
+/* STYLES GO HERE */
+}
+ 
+/* Large screens ----------- */
+@media only screen
+and (min-width : 1824px) {
+/* STYLES GO HERE */
+}
+ 
+/* iPhone 5 (portrait &amp; landscape)----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 568px) {
+/* STYLES GO HERE */
+}
+ 
+/* iPhone 5 (landscape)----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 568px)
+and (orientation : landscape) {
+/* STYLES GO HERE */
+}
+ 
+/* iPhone 5 (portrait)----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 568px)
+and (orientation : portrait) {
+/* STYLES GO HERE */
+}

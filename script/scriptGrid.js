@@ -2,9 +2,9 @@ $(function() {
 
     $.widget( "custom.GridCreater",{
       options: {
-        container : 200,
+        container : window.innerWidth,
         gridType: 9,
-        size : 30,
+        //size : 30,
         actStr : 0,
         count : 0
       },
@@ -13,14 +13,15 @@ $(function() {
       _create: function() {
           var self = $(this.element);
           var gridBlock  = this.options.gridType;
-          var containerWidth = this.options.container;
+          var containerWidth = this.options.container - 1;
+          console.log("containerWidth" , containerWidth)
           var containerCss = {'width': containerWidth +'px', 'height' : containerWidth+'px' , 'background-size' : containerWidth+'px'};
           self.css(containerCss);
           $('#actualImage').css(containerCss);
 
           
           
-          var widthHeight = ( containerWidth/Math.sqrt( gridBlock ) ) -1;
+          var widthHeight = ( containerWidth/Math.sqrt( gridBlock ) ) - 2;
           var block = '<div class="smallBlock block"></div>';
           
           for(var i=0; i < gridBlock ; i++){
@@ -37,9 +38,24 @@ $(function() {
           this.options.count = 0;
 
           self = this;
-          $('.btn-success').click( function(){ self.refresh(); });
+          $('.restart').click( function(){ self.refresh(); });
+          $('.hintBtn').click( function(){ self.hintImage(); });
+          $('.showImg').click( function(){ self.showImage(); });
           $('#moves').text( this.options.count );
        
+      },
+
+      hintImage : function() {
+        
+      },
+
+      showImage : function() {
+        $("#actualImage").show();
+        $("#gridImage").hide();
+        setTimeout(function(){ 
+          $("#actualImage").hide();
+          $("#gridImage").show();
+        }, 2000);
       },
  
       refresh: function() {
