@@ -6,15 +6,15 @@ $(function() {
         gridType: 9,
         //size : 30,
         actStr : 0,
-        count : 0
+        count : 0,
+        isRefresh : false
       },
       
       // the constructor
       _create: function() {
           var self = $(this.element);
           var gridBlock  = this.options.gridType;
-          var containerWidth = this.options.container - 1;
-          console.log("containerWidth" , containerWidth)
+          var containerWidth = this.options.container - 10;
           var containerCss = {'width': containerWidth +'px', 'height' : containerWidth+'px' , 'background-size' : containerWidth+'px'};
           self.css(containerCss);
           $('#actualImage').css(containerCss);
@@ -59,7 +59,8 @@ $(function() {
       },
  
       refresh: function() {
-        $('.smallBlock').css('pointer-events','');
+        this.options.isRefresh = true;
+        
         this._create()
       },
       
@@ -121,6 +122,13 @@ $(function() {
             $('#gridImage').append( cloneEles[ randomNumber[i]-1 ] );
           }
           smallBlocks = $('.smallBlock ');
+          if(this.options.isRefresh){
+            //return;
+            this.options.isRefresh = false;
+            $('.smallBlock').css('pointer-events','');
+            $( smallBlocks ).unbind( "click" );
+          }
+
           
           smallBlocks.click(function(){
             var currEle = $(this);
@@ -166,7 +174,6 @@ $(function() {
          smallBlocks.each(function(ind , ele){
             currArray.push($(ele).data('indexA'));
          });
-         console.log(this.options.count)
          
          $('#moves').text( this.options.count );
          
