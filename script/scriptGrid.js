@@ -57,6 +57,10 @@ $(function() {
         var self = this,
             uploadMyPicBtn = $('.uploadMyPic button');
 
+        $('.backToDshb').click(function() {
+          self.backToDashboard();
+        })
+
         $("#dashboard").hide();
         $(".uploadMyPic").show();
 
