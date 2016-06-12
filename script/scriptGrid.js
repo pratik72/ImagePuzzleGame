@@ -15,12 +15,20 @@ $(function() {
           var self = $(this.element);
           var gridBlock  = this.options.gridType;
           var containerWidth = this.options.container - 10;
+  
           var containerCss = {'width': containerWidth +'px', 'height' : containerWidth+'px' , 'background-size' : containerWidth+'px'};
           self.css(containerCss);
+
           $('#actualImage').css(containerCss);
 
-          
-          
+          $('.newGame').click(function(){
+            self.startNewGame();
+          });
+
+          $('.myPicGame').click(function() {
+            self.myPicGameView();
+          })
+
           var widthHeight = ( containerWidth/Math.sqrt( gridBlock ) ) - 2;
           var block = '<div class="smallBlock block"></div>';
           
@@ -31,7 +39,7 @@ $(function() {
           $('.smallBlock').css({
             'width': widthHeight +'px', 
             'height' : widthHeight+'px', 
-            'background-size' : containerWidth+'px'
+            'background-size' : containerWidth+'px '+containerWidth+'px'
            })
 
           this.setBlockPosition();
@@ -43,6 +51,74 @@ $(function() {
           $('.showImg').click( function(){ self.showImage(); });
           $('#moves').text( this.options.count );
        
+      },
+
+      myPicGameView : function () {
+        var self = this,
+            uploadMyPicBtn = $('.uploadMyPic button');
+
+        $("#dashboard").hide();
+        $(".uploadMyPic").show();
+
+        uploadMyPicBtn.click(function(){
+          var imgData = localStorage.getItem('img');
+          $(".uploadMyPic").hide();
+
+          var styleText = "body .block{background-image: url(" + imgData + ")}";
+          $('#dyStyle').text(styleText);
+          
+          /*$('.block').css({
+              'background-image': 'url(' + imgData + ')'
+            });*/
+
+          $(".gameMode").show();
+          $("#actualImage").hide();
+        })
+
+        $('#FileUpload').change( function(event) {
+          self.SetAndRenderImage(event)
+          uploadMyPicBtn.show();
+        })
+      },
+
+      SetAndRenderImage : function(eve) {
+        var files = eve.target.files;
+
+        for (var i = 0, f; f = files[i]; i++) {
+
+          if (!f.type.match('image.*')) {
+            continue;
+          }
+
+          var reader = new FileReader();
+          reader.onload = (function(theFile) {
+            return function(e) {
+
+              var span = document.createElement('span');
+              span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                                '" title="', escape(theFile.name), '"/>'].join('');
+                
+              document.getElementById('list').insertBefore(span, null);
+              localStorage.setItem('img', e.target.result);
+            };
+          })(f);
+          reader.readAsDataURL(f);
+        }
+      },
+
+      startNewGame : function() {
+        $(".gameMode").show();
+        $("#actualImage").hide();
+        $("#dashboard").hide();
+        var self = this;
+        $('.backToDshb').click(function() {
+          self.backToDashboard();
+        })
+      },
+
+      backToDashboard : function() {
+        $(".gameMode").hide();
+        $("#dashboard").show();        
       },
 
       hintImage : function() {

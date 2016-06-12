@@ -4,6 +4,41 @@ html , body{
   width: calc(100% - 1px);
 }
 
+#gridImage.gameMode , .gameMode{
+  display: none;
+}
+
+div#dashboard {
+    position: fixed;
+    top: 20%;
+    display: block;
+    left: 10%;
+}
+
+div#dashboard li {
+  list-style: none;
+  margin: 10px;
+  font-size: 15px;
+  border: 1px solid gray;
+  padding: 5px;
+  width: 120px;
+  text-align: center;
+}
+
+span.backToDshb {
+  position: relative;
+  display: inline-block;
+  padding: 5px 5px;
+}
+
+.uploadMyPic , .uploadMyPic button{
+  display: none;
+}
+
+output img{
+  width: 100%;
+}
+
 #gridImage , #actualImage{
   border: 2px solid;
   display:inline-block;
@@ -19,9 +54,9 @@ html , body{
 }
 
 .block{
-  background-image: url(../images/demo.png);
-     
-    background-repeat: no-repeat;
+  background-image: url(../images/JL/fl3.jpg);
+  background-repeat: no-repeat;
+  background-size: "350px 350px";
 }
 
 .smallBlock:hover {

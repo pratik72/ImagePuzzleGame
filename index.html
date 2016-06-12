@@ -11,7 +11,7 @@
 	<script type="text/javascript" src="script/jquery.min.js"></script>
 	<script type="text/javascript" src="script/jquery-ui.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="script/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="css/style.css">
 	<script type="text/javascript" src="script/scriptGrid.js"></script>
 	
@@ -19,8 +19,9 @@
 </head>
 <body>
 	<div>
-		<div> 
+		<div class="gameMode"> 
 	   		<h4>
+	   			<span class="backToDshb">&#10096;</span>
 	   			<span>Image Puzzle Game</span>
 	   			<span class="score">moves : <span id='moves'></span> </span>
 	   			<!-- <button type="button" class="btn btn-success restart" data-dismiss="modal">Restart</button>
@@ -28,15 +29,32 @@
 	   		</h4>
 	   </div>
 
-	  <div id="gridImage">
+	   <div id="dashboard">
+	   		<h2>Image Puzzle Game</h2>
+	   		<ul>
+	   			<li class="newGame">New Game</li>
+	   			<li class="myPicGame">My Picture Game</li>
+	   			<li class="timeTrial">Time Trial</li>
+	   			<li class="rateUs">Rate Us</li>
+	   			<li class="ContactUs">Contact Us</li>
+	   		</ul>
+	   </div>
+
+	   <div class="uploadMyPic">
+	   		<input type="file" id="FileUpload">
+	   		<output id="list"></output>
+	   		<button>Start Game</button>
+	   </div>
+
+	  <div id="gridImage" class="gameMode">
 	    
 	  </div>
 
-	  <div id="actualImage" class='block'>
+	  <div id="actualImage" class='block gameMode'>
 	    
 	  </div>
 
-	   <div class="navbar" data-grid="d">
+	   <div class="navbar gameMode" data-grid="d">
 		    <ul>
 		        <li><a href="#" class="restart">Restart</a></li>
 		        <li><a href="#" class="hintBtn">Hint</a></li>
@@ -69,5 +87,6 @@
 
 	  </div>
 	</div>
+	<style type="text/css" id="dyStyle"></style>
 </body>
 </html>
