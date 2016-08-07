@@ -35,7 +35,7 @@ $(function() {
           })
 
           var widthHeight = ( containerWidth/Math.sqrt( gridBlock ) ) - 2;
-          var block = '<div class="smallBlock"><div class="block"></div></div>';
+          var block = '<div class="smallBlock block"></div>';
           
           for(var i=0; i < gridBlock ; i++){
             self.append(block);
@@ -47,10 +47,7 @@ $(function() {
           
           $('.smallBlock').css({
             'width': widthHeight +'px', 
-            'height' : widthHeight+'px'
-           })
-
-          $('.block').css({
+            'height' : widthHeight+'px', 
             'background-size' : containerWidth+'px '+containerWidth+'px'
            })
 
@@ -210,23 +207,22 @@ $(function() {
           var gridBlock  = this.options.gridType,
           containerWidth = this.options.container,
           cellPerRowCol = Math.sqrt( gridBlock ),
-          block = $('.block '),
-          smallBlock = $('.smallBlock '),
+          smallBlocks = $('.smallBlock '),
           row = 0,
           column = 0, self = this,
           cloneEles = [] ,
           randomNumber = this.randomNumberStrGen();
 
-          block.removeClass("hintBrd");
+          smallBlocks.removeClass("hintBrd");
           
-          smallBlock.each(function(i , ele){
+          smallBlocks.each(function(i , ele){
               var offsetVal = $(ele).offset();
               var xPoz = '-' +  ( $(ele).width() * column ) ;
               var yPoz = '-' +  ( $(ele).width() * row ) ;
               
-              $(ele).find('.block ').data('indexA' , i+1);
+              $(ele).data('indexA' , i+1);
            
-              $(ele).find('.block ').css({'background-position' : xPoz+'px ' + yPoz + 'px'});
+              $(ele).css({'background-position' : xPoz+'px ' + yPoz + 'px'});
               column++;
               if(cellPerRowCol == column){
                 row++;
@@ -243,69 +239,68 @@ $(function() {
             
             $('#gridImage').append( cloneEles[ randomNumber[i]-1 ] );
           }
-          block = $('.block ');
+          smallBlocks = $('.smallBlock ');
           if(this.options.isRefresh){
             //return;
             this.options.isRefresh = false;
-            
-            /*block.draggable({ disabled: true });*/
-            block.draggable("enable");
+            $('.smallBlock').css('pointer-events','');
+            $( smallBlocks ).unbind( "click" );
           }
 
-          block.draggable({
-            containment: "#gridImage",
-            revert: "valid",
-            revertDuration: 0,
-            stop : function( event, ui) {
-              $(this).css({'top' : '' , 'left' : ''});
-            }
-          });
+          
+          smallBlocks.click(function(){
+            var currEle = $(this);
+            var matchedFlag = false;
+            //var hintBrd = $(".hintBrd");
+            smallBlocks.removeClass('selectedTile').each(function(ind,ele){
 
-          block.droppable({
-            drop: function( event, ui ) {
-              var currEle = $(event.toElement);
-              var ele = this;
-              if(ele.style.cssText != currEle[0].style.cssText ){
+              if(ele.style.cssText != currEle[0].style.cssText && $(ele).data('isSelected') == '1'){
                 var eleCss = ele.style.cssText,
                 thisCss = currEle[0].style.cssText,
                 eleData = $(ele).data('indexA'),
                 thisData = currEle.data('indexA');
                 
-                block.removeClass("hintBrd")
+                $(ele).removeClass("hintBrd")
 
                 currEle.data('indexA' , eleData);
                 $(ele).data('indexA' , thisData)
-                $(currEle[0]).css({'top':'' , 'left' : ''});
-
-                var currBgCSS = $(currEle[0]).css('background-position');
-                var eleBgCSS = $( ele ).css('background-position');
-
-                $(currEle[0]).css({'background-position' : eleBgCSS });
-                $( ele ).css({'background-position' : currBgCSS });
-                                
+               
+                currEle[0].style.cssText = eleCss;
+                ele.style.cssText = thisCss;
+                
+                $(ele).removeData('isSelected');
+                
                 matchedFlag = true;
                 self._countAndClearImg();
               }
-
-            }
-          });
+              
+            });
+            if( currEle.data('isSelected') == '1' ){
+              $(currEle).removeData('isSelected');
+              matchedFlag = true;
+            };
+            if(matchedFlag) return;
+            
+            currEle.addClass('selectedTile');
+            currEle.data('isSelected' , '1');
+          })
           
       },
       
       _countAndClearImg: function() {
          var actualArray = this.randomNumberStrGen(true),
          currArray = [], self = this,
-         block = $('.block ');
+         smallBlocks = $('.smallBlock ');
          this.options.count++;
-         block.each(function(ind , ele){
-            $(ele).css({'top' : '' , 'left' : ''});
+         smallBlocks.each(function(ind , ele){
             currArray.push($(ele).data('indexA'));
          });
          
-         $('#moves').text( this.options.count );         
+         $('#moves').text( this.options.count );
+         
          if( JSON.stringify( actualArray ) == JSON.stringify( currArray ) ){
-            block.draggable( "destroy" );
-            block.removeClass('hintBrd');
+            smallBlocks.css({'margin': '0px' , 'pointer-events' : 'none'});
+            smallBlocks.removeClass('hintBrd');
             $("#myModal").modal('show');
          }
       },
