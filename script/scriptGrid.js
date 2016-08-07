@@ -7,13 +7,18 @@ $(function() {
         //size : 30,
         actStr : 0,
         count : 0,
-        isRefresh : false
+        isRefresh : false,
+        isInit : true,
+        hintedArray : [],
       },
       
       // the constructor
       _create: function() {
-          var self = $(this.element);
-          var gridBlock  = this.options.gridType;
+          var self = $(this.element),
+              gridBlock  = this.options.gridType,
+              backButton = $('.backToDshb'),
+              hintButton = $('.hintBtn');
+          
           var containerWidth = this.options.container - 10;
   
           var containerCss = {'width': containerWidth +'px', 'height' : containerWidth+'px' , 'background-size' : containerWidth+'px'};
@@ -35,6 +40,10 @@ $(function() {
           for(var i=0; i < gridBlock ; i++){
             self.append(block);
           }
+
+          backButton.click(function() {
+            self.backToDashboard();
+          })
           
           $('.smallBlock').css({
             'width': widthHeight +'px', 
@@ -47,7 +56,7 @@ $(function() {
 
           self = this;
           $('.restart').click( function(){ self.refresh(); });
-          $('.hintBtn').click( function(){ self.hintImage(); });
+          hintButton.click( function(){ self.hintImage(); });
           $('.showImg').click( function(){ self.showImage(); });
           $('#moves').text( this.options.count );
        
@@ -57,12 +66,13 @@ $(function() {
         var self = this,
             uploadMyPicBtn = $('.uploadMyPic button');
 
-        $('.backToDshb').click(function() {
-          self.backToDashboard();
-        })
-
+        $(".headerBox").show();
         $("#dashboard").hide();
         $(".uploadMyPic").show();
+
+        if(!self.options.isInit){
+          self.refresh();
+        }
 
         uploadMyPicBtn.click(function(){
           var imgData = localStorage.getItem('img');
@@ -111,22 +121,49 @@ $(function() {
       },
 
       startNewGame : function() {
+        if(!this.options.isInit){
+          this.refresh();
+        }
+        this.options.isInit = false;
         $(".gameMode").show();
         $("#actualImage").hide();
         $("#dashboard").hide();
         var self = this;
-        $('.backToDshb').click(function() {
-          self.backToDashboard();
-        })
       },
 
       backToDashboard : function() {
+        var uploadMyPicView = $(".uploadMyPic");
+
         $(".gameMode").hide();
-        $("#dashboard").show();        
+        $("#dashboard").show();
+        uploadMyPicView.hide(); 
       },
 
       hintImage : function() {
-        
+        var allBlock = $('.block'),
+            gridType = this.options.gridType,
+            actualArray = null,
+            isMatch = false,
+            dummyArray = this.options.hintedArray;
+
+        $(allBlock).removeClass("hintBrd");
+        for (var k = 0; k < gridType; k++) {
+          actualArray = k;
+          for (var i = 0; i < allBlock.length; i++) {
+            var blStr = $(allBlock[i]).data('indexA') -1;
+            
+            if( allBlock[i] != allBlock[ actualArray ] && dummyArray.indexOf(blStr) == -1 && blStr == actualArray){
+              dummyArray.push(blStr);
+              $(allBlock[i]).addClass("hintBrd");
+              $(allBlock[ actualArray ]).addClass("hintBrd");
+              isMatch = true
+              break
+            }
+          };
+          if(isMatch){
+            break;
+          }
+        };
       },
 
       showImage : function() {
@@ -140,7 +177,6 @@ $(function() {
  
       refresh: function() {
         this.options.isRefresh = true;
-        
         this._create()
       },
       
@@ -150,7 +186,7 @@ $(function() {
         for(var i = 0 ; i < gridBlock ; i++){
           actStr.push(i+1);
         }
-        
+
         if(actualArray){
           return actStr;
         }
@@ -176,6 +212,8 @@ $(function() {
           column = 0, self = this,
           cloneEles = [] ,
           randomNumber = this.randomNumberStrGen();
+
+          smallBlocks.removeClass("hintBrd");
           
           smallBlocks.each(function(i , ele){
               var offsetVal = $(ele).offset();
@@ -213,14 +251,17 @@ $(function() {
           smallBlocks.click(function(){
             var currEle = $(this);
             var matchedFlag = false;
+            //var hintBrd = $(".hintBrd");
             smallBlocks.removeClass('selectedTile').each(function(ind,ele){
-              
+
               if(ele.style.cssText != currEle[0].style.cssText && $(ele).data('isSelected') == '1'){
                 var eleCss = ele.style.cssText,
                 thisCss = currEle[0].style.cssText,
                 eleData = $(ele).data('indexA'),
                 thisData = currEle.data('indexA');
                 
+                $(ele).removeClass("hintBrd")
+
                 currEle.data('indexA' , eleData);
                 $(ele).data('indexA' , thisData)
                
@@ -259,6 +300,7 @@ $(function() {
          
          if( JSON.stringify( actualArray ) == JSON.stringify( currArray ) ){
             smallBlocks.css({'margin': '0px' , 'pointer-events' : 'none'});
+            smallBlocks.removeClass('hintBrd');
             $("#myModal").modal('show');
          }
       },
