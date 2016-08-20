@@ -180,6 +180,7 @@ $(function() {
  
       refresh: function() {
         this.options.isRefresh = true;
+        this.options.hintedArray = [];
         this._create()
       },
       

@@ -53,7 +53,7 @@ output img{
  max-width: 750px;
 }
 
-.block{
+.block , #actualImage{
   background-image: url(../images/JL/fl3.jpg);
   background-repeat: no-repeat;
   background-size: "350px 350px";
