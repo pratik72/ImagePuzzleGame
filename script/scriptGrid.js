@@ -220,7 +220,6 @@ $(function() {
           block.removeClass("hintBrd");
           
           smallBlock.each(function(i , ele){
-              var offsetVal = $(ele).offset();
               var xPoz = '-' +  ( $(ele).width() * column ) ;
               var yPoz = '-' +  ( $(ele).width() * row ) ;
               
@@ -233,9 +232,9 @@ $(function() {
                 column = 0;
               }
               
-              var tmpClone = $(ele).clone(true);
-              cloneEles.push(tmpClone);
+              var tmpClone = $(ele)
               
+              cloneEles.push(tmpClone);              
               ele.remove();
           });
          
@@ -245,11 +244,7 @@ $(function() {
           }
           block = $('.block ');
           if(this.options.isRefresh){
-            //return;
             this.options.isRefresh = false;
-            
-            /*block.draggable({ disabled: true });*/
-            block.draggable("enable");
           }
 
           block.draggable({
@@ -304,7 +299,7 @@ $(function() {
          
          $('#moves').text( this.options.count );         
          if( JSON.stringify( actualArray ) == JSON.stringify( currArray ) ){
-            block.draggable( "destroy" );
+            
             block.removeClass('hintBrd');
             $("#myModal").modal('show');
          }
