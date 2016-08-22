@@ -19,7 +19,7 @@ $(function() {
               backButton = $('.backToDshb'),
               hintButton = $('.hintBtn');
           
-          var containerWidth = this.options.container - 10;
+          var containerWidth = this.options.container;
   
           var containerCss = {'width': containerWidth +'px', 'height' : containerWidth+'px' , 'background-size' : containerWidth+'px'};
           self.css(containerCss);
@@ -144,29 +144,26 @@ $(function() {
 
       hintImage : function() {
         var allBlock = $('.block'),
-            gridType = this.options.gridType,
-            actualArray = null,
-            isMatch = false,
-            dummyArray = this.options.hintedArray;
+          gridType = this.options.gridType,
+          actualArray = null,
+          isMatch = false,
+          tmpRandomNum = Math.floor(Math.random() * gridType ),
+          dummyArray = this.options.hintedArray;
 
-        $(allBlock).removeClass("hintBrd");
-        for (var k = 0; k < gridType; k++) {
-          actualArray = k;
-          for (var i = 0; i < allBlock.length; i++) {
-            var blStr = $(allBlock[i]).data('indexA') -1;
-            
-            if( allBlock[i] != allBlock[ actualArray ] && dummyArray.indexOf(blStr) == -1 && blStr == actualArray){
-              dummyArray.push(blStr);
-              $(allBlock[i]).addClass("hintBrd");
-              $(allBlock[ actualArray ]).addClass("hintBrd");
-              isMatch = true
-              break
+          $(allBlock).removeClass("hintBrd");
+          countAndShowHint( tmpRandomNum );
+
+          function countAndShowHint (argument) {
+            var actEleStr = $( allBlock[ tmpRandomNum ] ).data('indexA') -1;
+
+            if( allBlock[ tmpRandomNum ] != allBlock[ actEleStr ] ){
+              $(allBlock[ tmpRandomNum ] ).addClass("hintBrd");
+              $(allBlock[ actEleStr ] ).addClass("hintBrd");
+            }else{
+              tmpRandomNum = Math.floor(Math.random() * gridType )
+              countAndShowHint( tmpRandomNum );
             }
-          };
-          if(isMatch){
-            break;
           }
-        };
       },
 
       showImage : function() {

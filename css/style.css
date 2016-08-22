@@ -61,13 +61,8 @@ output img{
   height: 100%;
 }
 
-.smallBlock:hover {
-   outline : 1px dashed;
-}
-
 .smallBlock {
     display: block;
-    margin: 0.5px;
     float: left;
 }
 
@@ -99,7 +94,7 @@ h4{
 }
 
 .hintBrd{
-  outline: 2px dashed red;
+  box-shadow: 0px 0px 10px 2px white inset;
 }
 
 .navbar li{
