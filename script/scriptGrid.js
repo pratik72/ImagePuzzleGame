@@ -19,50 +19,51 @@ $(function() {
               backButton = $('.backToDshb'),
               hintButton = $('.hintBtn');
           
-          var containerWidth = this.options.container;
-  
-          var containerCss = {'width': containerWidth +'px', 'height' : containerWidth+'px' , 'background-size' : containerWidth+'px'};
-          self.css(containerCss);
-
-          $('#actualImage').css(containerCss);
+         
+          this.createLevelGrid();
 
           $('.newGame').click(function(){
-            self.startNewGame();
+            //self.startNewGame();
+            self.LevelTyre();
           });
 
           $('.myPicGame').click(function() {
             self.myPicGameView();
           })
 
-          var widthHeight = ( containerWidth/Math.sqrt( gridBlock ) ) - 2;
-          var block = '<div class="smallBlock"><div class="block"></div></div>';
-          
-          for(var i=0; i < gridBlock ; i++){
-            self.append(block);
-          }
-
           backButton.click(function() {
             self.backToDashboard();
           })
-          
-          $('.smallBlock').css({
-            'width': widthHeight +'px', 
-            'height' : widthHeight+'px'
-           })
-
-          $('.block').css({
-            'background-size' : containerWidth+'px '+containerWidth+'px'
-           })
-
-          this.setBlockPosition();
-          this.options.count = 0;
 
           self = this;
-          $('.restart').click( function(){ self.refresh(); });
+          
           hintButton.click( function(){ self.hintImage(); });
           $('.showImg').click( function(){ self.showImage(); });
           $('#moves').text( this.options.count );
        
+      },
+
+      LevelTyre : function() {
+        $("#LevelGrid").show();
+        $("#actualImage").hide();
+        $("#dashboard").hide();
+      },
+
+      createLevelGrid : function() {
+        var gridLvl = $('#LevelGrid ul'),
+          self = this;
+
+        gridLvl[0].innerHTML = '';
+        for (var i = 0; i < LevelJson.length; i++) {
+          gridLvl.append('<li><button data='+LevelJson[i]+'>'+LevelJson[i]+'x'+LevelJson[i]+'</button></li>')
+        };
+
+        $('#LevelGrid button').click( function(e){ 
+          var gridType = $(this).attr('data');
+          gridType = gridType*gridType;
+          self.options.gridType = gridType;
+          self.startNewGame();
+        });
       },
 
       myPicGameView : function () {
@@ -83,10 +84,6 @@ $(function() {
 
           var styleText = "body .block{background-image: url(" + imgData + ")}";
           $('#dyStyle').text(styleText);
-          
-          /*$('.block').css({
-              'background-image': 'url(' + imgData + ')'
-            });*/
 
           $(".gameMode").show();
           $("#actualImage").hide();
@@ -125,13 +122,44 @@ $(function() {
 
       startNewGame : function() {
         if(!this.options.isInit){
-          this.refresh();
+          //this.refresh();
         }
+
+        var self = $(this.element),
+          gridBlock  = this.options.gridType;
+        
+        var containerWidth = this.options.container - 10;
+
+        var containerCss = {'width': containerWidth +'px', 'height' : containerWidth+'px' , 'background-size' : containerWidth+'px'};
+        self.css(containerCss);
+
+        $('#actualImage').css(containerCss);
+
+        var widthHeight = ( containerWidth/Math.sqrt( gridBlock ) );
+        var block = '<div class="smallBlock"><div class="block"></div></div>';
+        
+        for(var i=0; i < gridBlock ; i++){
+          self.append(block);
+        }
+
+        $('.smallBlock').css({
+          'width': widthHeight +'px', 
+          'height' : widthHeight+'px'
+         })
+
+        $('.block').css({
+          'background-size' : containerWidth+'px '+containerWidth+'px'
+         })
+
+        this.setBlockPosition();
+        this.options.count = 0;
+
         this.options.isInit = false;
         $(".gameMode").show();
         $("#actualImage").hide();
-        $("#dashboard").hide();
+        $("#LevelGrid").hide();
         var self = this;
+        $('.restart').click( function(){ self.refresh(); });
       },
 
       backToDashboard : function() {
@@ -178,7 +206,7 @@ $(function() {
       refresh: function() {
         this.options.isRefresh = true;
         this.options.hintedArray = [];
-        this._create()
+        this.startNewGame()
       },
       
       randomNumberStrGen: function(actualArray) {
@@ -317,5 +345,7 @@ $(function() {
       }
     });
  
+
+    var LevelJson = [ 2 , 3 , 4 , 5 , 6 ];
     $('#gridImage').GridCreater();
   });

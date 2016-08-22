@@ -112,6 +112,25 @@ h4{
   margin-right: 10px;
 }
 
+#LevelGrid{
+  margin: auto;
+  width: 60%;
+  margin-top: 25%;
+}
+
+#LevelGrid ul{
+  list-style-type : none;
+  padding : 0px;
+}
+#LevelGrid li button{
+  width: 100%;
+}
+
+#LevelGrid li {
+    height: 50px;
+    padding: 5px 10px;
+}
+
 * {
     -webkit-box-sizing: inherit;
     -moz-box-sizing: inherit;
