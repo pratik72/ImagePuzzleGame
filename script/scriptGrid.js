@@ -9,8 +9,22 @@ $(function() {
         count : 0,
         isRefresh : false,
         isInit : true,
+        selectedImage : "",
         hintedArray : [],
       },
+
+      LevelData : [
+        { img : "fl1.jpg" },
+        { img : "fl2.jpg" },
+        { img : "fl3.jpg" },
+        { img : "fl4.png" },
+        { img : "fl5.png" },
+        { img : "fl6.png" },
+        { img : "fl7.png" },
+        { img : "fl8.png" },
+        { img : "fl9.png" },
+        { img : "fl10.jpg" },
+      ],
       
       // the constructor
       _create: function() {
@@ -50,18 +64,38 @@ $(function() {
       },
 
       createLevelGrid : function() {
-        var gridLvl = $('#LevelGrid ul'),
-          self = this;
+        var gridLvl = $('#LevelGrid'),
+          gridLvlList = gridLvl.find('ul'),
+          lvlNumber = $('#LevelNumber'),
+          lvlNumber = lvlNumber,
+          self = this,
+          imgPath = "images/JL/"
+          LevelData = self.LevelData;
 
-        gridLvl[0].innerHTML = '';
+        gridLvlList[0].innerHTML = '';
         for (var i = 0; i < LevelJson.length; i++) {
-          gridLvl.append('<li><button data='+LevelJson[i]+'>'+LevelJson[i]+'x'+LevelJson[i]+'</button></li>')
+          gridLvlList.append('<li><button data='+LevelJson[i]+'>'+LevelJson[i]+'x'+LevelJson[i]+'</button></li>')
         };
 
-        $('#LevelGrid button').click( function(e){ 
+        lvlNumber.find('ul')[0].innerHTML = '';
+        for (var i = 0; i < LevelData.length; i++) {
+          lvlNumber.find('ul').append('<li><img src='+ imgPath + LevelData[i].img + ' /></li>');
+        };
+
+        gridLvl.find('button').click( function(e){
           var gridType = $(this).attr('data');
           gridType = gridType*gridType;
           self.options.gridType = gridType;
+          lvlNumber.show();
+          gridLvl.hide();
+        });
+
+        lvlNumber.find('img').click( function(e){
+          //selectedImage
+          self.options.selectedImage = $(this).attr('src');
+          var styleText = "body .block , #actualImage{background-image: url(" + self.options.selectedImage + ")}";
+          $('#dyStyle').text(styleText);
+
           self.startNewGame();
         });
       },
@@ -156,8 +190,7 @@ $(function() {
 
         this.options.isInit = false;
         $(".gameMode").show();
-        $("#actualImage").hide();
-        $("#LevelGrid").hide();
+        $("#actualImage , #LevelGrid , #LevelNumber").hide();
         var self = this;
         $('.restart').click( function(){ self.refresh(); });
       },
@@ -276,6 +309,8 @@ $(function() {
           block.draggable({
             containment: "#gridImage",
             revert: "valid",
+            snap: ".gridImage",
+            stack: ".block",
             revertDuration: 0,
             stop : function( event, ui) {
               $(this).css({'top' : '' , 'left' : ''});
