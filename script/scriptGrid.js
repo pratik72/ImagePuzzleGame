@@ -58,6 +58,8 @@ $(function() {
       },
 
       LevelTyre : function() {
+        $('#moves').text( this.options.count );
+        $(".headerBox").show();
         $("#LevelGrid").show();
         $("#actualImage").hide();
         $("#dashboard").hide();
@@ -115,12 +117,11 @@ $(function() {
         uploadMyPicBtn.click(function(){
           var imgData = localStorage.getItem('img');
           $(".uploadMyPic").hide();
-
+          $('#dyStyle').text('');
           var styleText = "body .block{background-image: url(" + imgData + ")}";
           $('#dyStyle').text(styleText);
 
-          $(".gameMode").show();
-          $("#actualImage").hide();
+          self.startNewGame();
         })
 
         $('#FileUpload').change( function(event) {
@@ -309,9 +310,8 @@ $(function() {
           block.draggable({
             containment: "#gridImage",
             revert: "valid",
-            snap: ".gridImage",
-            stack: ".block",
             revertDuration: 0,
+            cursor:"move",            
             stop : function( event, ui) {
               $(this).css({'top' : '' , 'left' : ''});
             }
@@ -358,7 +358,7 @@ $(function() {
             currArray.push($(ele).data('indexA'));
          });
          
-         $('#moves').text( this.options.count );         
+         $('#moves').text( this.options.count );
          if( JSON.stringify( actualArray ) == JSON.stringify( currArray ) ){
             
             block.removeClass('hintBrd');

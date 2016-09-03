@@ -64,7 +64,6 @@ output img{
 .smallBlock {
     display: block;
     float: left;
-    overflow: hidden;
 }
 
 .selectedTile{
